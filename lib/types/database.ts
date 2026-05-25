@@ -20,6 +20,7 @@ export interface Profile {
   full_name: string
   phone: string | null
   role: UserRole
+  locked_project_id?: string | null
   created_at: string
   updated_at: string
 }

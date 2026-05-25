@@ -1,6 +1,13 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import type { UserRole } from '@/lib/types/database'
+import type { UserRole, Profile } from '@/lib/types/database'
+import { resolveLockedProjectId } from '@/lib/auth/properties-viewer'
+
+function enrichProfile(profile: Profile, authMetadata?: Record<string, unknown> | null): Profile {
+  const locked = resolveLockedProjectId(profile, authMetadata)
+  if (!locked || profile.locked_project_id === locked) return profile
+  return { ...profile, locked_project_id: locked }
+}
 
 export async function requireAuth() {
   const supabase = createClient()
@@ -54,7 +61,7 @@ export async function requireProfile() {
       redirect('/auth/login?error=no-profile')
     }
     
-    return { user, profile: retryProfile }
+    return { user, profile: enrichProfile(retryProfile, user.user_metadata) }
   }
 
   if (!profile) {
@@ -63,7 +70,7 @@ export async function requireProfile() {
     redirect('/auth/login?error=no-profile')
   }
 
-  return { user, profile }
+  return { user, profile: enrichProfile(profile, user.user_metadata) }
 }
 
 export async function requireRole(allowedRoles: UserRole[]) {

@@ -1,6 +1,8 @@
 import { requireProfile } from '@/lib/auth/guards'
+import { isPropertiesOnlyViewer, propertiesViewerPath } from '@/lib/auth/properties-viewer'
 import DashboardLayout from '@/components/layout/DashboardLayout'
 import { getClientStats, getProjects } from '@/app/actions/client'
+import { redirect } from 'next/navigation'
 
 export default async function OrgLayout({
   children,
@@ -8,6 +10,10 @@ export default async function OrgLayout({
   children: React.ReactNode
 }) {
   const { profile } = await requireProfile()
+
+  if (isPropertiesOnlyViewer(profile) && profile.locked_project_id) {
+    redirect(propertiesViewerPath(profile.locked_project_id))
+  }
 
   // Obtener stats para badges
   const stats = await getClientStats()

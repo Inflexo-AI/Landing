@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { loginSchema } from '@/lib/validations/auth'
 import { Loader2 } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase/client'
+import { getPostLoginPath } from '@/lib/auth/properties-viewer'
 
 interface LoginFormData {
   email: string
@@ -92,7 +92,7 @@ export default function LoginForm() {
       // Obtener el perfil para saber a qué organización pertenece
       const { data: userProfile } = await supabase
         .from('profiles')
-        .select('organization_id, role')
+        .select('organization_id, role, locked_project_id')
         .eq('id', authData.user.id)
         .single()
 
@@ -103,16 +103,8 @@ export default function LoginForm() {
         return
       }
 
-      // Redirigir según rol
-      let redirectUrl = '/auth/login'
-      if (userProfile.role === 'master_admin') {
-        redirectUrl = '/dashboard/admin'
-      } else {
-        redirectUrl = '/dashboard/org'
-      }
-
-      console.log('Redirigiendo a:', redirectUrl)
-      window.location.href = redirectUrl
+      const { data: { user: authUser } } = await supabase.auth.getUser()
+      window.location.href = getPostLoginPath(userProfile, authUser?.user_metadata)
     } catch (err: any) {
       console.error('Error en login:', err)
       setError(err.message || 'Error inesperado al iniciar sesión')

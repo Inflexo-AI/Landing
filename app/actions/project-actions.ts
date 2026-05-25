@@ -49,6 +49,12 @@ async function verifyProjectAccess(projectId: string) {
     return { hasAccess: false, project: null, profile }
 }
 
+/** Acceso a propiedades para usuario con locked_project_id */
+export async function verifyProjectAccessForViewer(projectId: string) {
+    const access = await verifyProjectAccess(projectId)
+    return { hasAccess: access.hasAccess, project: access.project }
+}
+
 /**
  * Obtener dashboard del proyecto
  */
