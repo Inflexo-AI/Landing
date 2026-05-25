@@ -124,17 +124,17 @@ export default function OverviewView({
                 badge: 'bg-orange-500/20 text-orange-600 dark:text-orange-400',
                 accent: 'text-orange-600 dark:text-orange-400',
             }
+        if (p.includes('veo'))
+            return {
+                bg: isLight ? 'bg-emerald-50 border-emerald-200' : 'bg-emerald-500/5 border-emerald-500/20',
+                badge: 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400',
+                accent: 'text-emerald-600 dark:text-emerald-400',
+            }
         if (p.includes('casas'))
             return {
                 bg: isLight ? 'bg-blue-50 border-blue-200' : 'bg-blue-500/5 border-blue-500/20',
                 badge: 'bg-blue-500/20 text-blue-600 dark:text-blue-400',
                 accent: 'text-blue-600 dark:text-blue-400',
-            }
-        if (p.includes('gallito'))
-            return {
-                bg: isLight ? 'bg-cyan-50 border-cyan-200' : 'bg-cyan-500/5 border-cyan-500/20',
-                badge: 'bg-cyan-500/20 text-cyan-600 dark:text-cyan-400',
-                accent: 'text-cyan-600 dark:text-cyan-400',
             }
         return {
             bg: isLight ? 'bg-gray-50 border-gray-200' : 'bg-zinc-800/50 border-zinc-700',
@@ -345,7 +345,7 @@ export default function OverviewView({
                             {newAgencies.length} nueva{newAgencies.length !== 1 ? 's' : ''}
                         </span>
                     </div>
-                    <div className="overflow-x-auto">
+                    <div className="overflow-x-auto scrollbar-soft">
                         <table className="w-full">
                             <thead>
                                 <tr className={`text-xs uppercase tracking-wider ${textSecondary}`}>
@@ -403,11 +403,16 @@ export default function OverviewView({
             {/* Monthly Evolution */}
             {sortedMonths.length > 0 && (
                 <div className={`p-6 rounded-2xl border transition-all ${sectionBg}`}>
-                    <div className="flex items-center gap-2 mb-4">
-                        <Calendar className="w-5 h-5 text-blue-500" />
-                        <h3 className={`text-lg font-bold ${textPrimary}`}>Evolución Mensual</h3>
+                    <div className="mb-4">
+                        <div className="flex items-center gap-2">
+                            <Calendar className="w-5 h-5 text-blue-500" />
+                            <h3 className={`text-lg font-bold ${textPrimary}`}>Evolución Mensual</h3>
+                        </div>
+                        <p className={`text-xs mt-1 ${textSecondary}`}>
+                            Misma lógica que la pestaña Propiedades: avisos duplicados entre portales se cuentan una vez por portal; mes según fecha de carga en Uruguay (America/Montevideo).
+                        </p>
                     </div>
-                    <div className="overflow-x-auto">
+                    <div className="overflow-x-auto scrollbar-soft">
                         <table className="w-full">
                             <thead>
                                 <tr className={`text-xs uppercase tracking-wider ${textSecondary}`}>

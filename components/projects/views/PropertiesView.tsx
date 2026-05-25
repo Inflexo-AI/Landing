@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { getProjectProperties, consolidateDuplicateProperties, togglePropertyFavorite } from '@/app/actions/project-actions'
+import { getProjectProperties, consolidateDuplicateProperties, togglePropertyFavorite, getPortalCounts } from '@/app/actions/project-actions'
 import { useTheme } from '@/contexts/ThemeContext'
 import { ExternalLink, ChevronLeft, ChevronRight, Search, Loader2, Phone, MessageCircle, ChevronUp, ChevronDown, ArrowUpDown, Calendar, Star } from 'lucide-react'
 import PlatformSelector from '@/components/projects/PlatformSelector'
@@ -28,47 +28,39 @@ export default function PropertiesView({ projectId, selectedPlatform, onPlatform
     const [onlyFavorites, setOnlyFavorites] = useState(false)
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
+    const [onlyToday, setOnlyToday] = useState(false)
     const [consolidating, setConsolidating] = useState(false)
     const [optimisticFavorites, setOptimisticFavorites] = useState<Record<string, boolean>>({})
     const [platformCounts, setPlatformCounts] = useState<Record<string, number>>({})
 
+    const currentFilters = {
+        agency: agencyFilter.trim() || undefined,
+        minPrice: minPrice ? parseInt(minPrice) : undefined,
+        maxPrice: maxPrice ? parseInt(maxPrice) : undefined,
+        onlyFavorites: onlyFavorites || undefined,
+        onlyDuplicates: onlyDuplicates || undefined,
+        startDate: onlyToday ? undefined : (startDate || undefined),
+        endDate: onlyToday ? undefined : (endDate || undefined),
+        onlyToday: onlyToday || undefined,
+    }
+
     const loadData = async () => {
         setLoading(true)
-        const result = await getProjectProperties(projectId, {
-            page,
-            portal: selectedPlatform || undefined,
-            agency: agencyFilter.trim() || undefined,
-            minPrice: minPrice ? parseInt(minPrice) : undefined,
-            maxPrice: maxPrice ? parseInt(maxPrice) : undefined,
-            orderBy: sortColumn,
-            orderDir: sortDir,
-            onlyDuplicates,
-            onlyFavorites,
-            startDate,
-            endDate,
-        })
+        const [result, counts] = await Promise.all([
+            getProjectProperties(projectId, {
+                page,
+                portal: selectedPlatform || undefined,
+                orderBy: sortColumn,
+                orderDir: sortDir,
+                ...currentFilters,
+            }),
+            getPortalCounts(projectId, currentFilters),
+        ])
         setData(result.data)
+        setPlatformCounts(counts)
         setLoading(false)
         setOptimisticFavorites({})
     }
-
-    // Load platform counts once for the selector badges
-    useEffect(() => {
-        const loadCounts = async () => {
-            const result = await getProjectProperties(projectId, { perPage: 99999 })
-            if (result.data?.properties) {
-                const counts: Record<string, number> = {}
-                result.data.properties.forEach((p: any) => {
-                    const portals = p.portals || [p.portal]
-                    portals.forEach((portal: string) => {
-                        if (portal) counts[portal] = (counts[portal] || 0) + 1
-                    })
-                })
-                setPlatformCounts(counts)
-            }
-        }
-        loadCounts()
-    }, [projectId])
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -80,7 +72,7 @@ export default function PropertiesView({ projectId, selectedPlatform, onPlatform
 
     useEffect(() => {
         loadData()
-    }, [projectId, page, sortColumn, sortDir, onlyDuplicates, onlyFavorites, startDate, endDate, selectedPlatform])
+    }, [projectId, page, sortColumn, sortDir, onlyDuplicates, onlyFavorites, startDate, endDate, onlyToday, selectedPlatform])
 
     const handleFilter = () => {
         setPage(1)
@@ -163,25 +155,28 @@ export default function PropertiesView({ projectId, selectedPlatform, onPlatform
                         </div>
 
                         {/* Date Range */}
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 flex-wrap">
                             <Calendar size={14} className={mutedClass} />
                             <input
                                 type="date"
                                 value={startDate}
-                                onChange={(e) => setStartDate(e.target.value)}
-                                className={`text-xs p-1.5 rounded border ${isLight ? 'bg-white border-gray-200' : 'bg-black border-zinc-800'} ${textClass} focus:outline-none focus:ring-1 focus:ring-violet-500`}
+                                disabled={onlyToday}
+                                onChange={(e) => { setStartDate(e.target.value); setOnlyToday(false) }}
+                                className={`text-xs p-1.5 rounded border ${isLight ? 'bg-white border-gray-200' : 'bg-black border-zinc-800'} ${textClass} focus:outline-none focus:ring-1 focus:ring-violet-500 disabled:opacity-40`}
                                 placeholder="Desde"
                             />
                             <span className={mutedClass}>-</span>
                             <input
                                 type="date"
                                 value={endDate}
-                                onChange={(e) => setEndDate(e.target.value)}
-                                className={`text-xs p-1.5 rounded border ${isLight ? 'bg-white border-gray-200' : 'bg-black border-zinc-800'} ${textClass} focus:outline-none focus:ring-1 focus:ring-violet-500`}
+                                disabled={onlyToday}
+                                onChange={(e) => { setEndDate(e.target.value); setOnlyToday(false) }}
+                                className={`text-xs p-1.5 rounded border ${isLight ? 'bg-white border-gray-200' : 'bg-black border-zinc-800'} ${textClass} focus:outline-none focus:ring-1 focus:ring-violet-500 disabled:opacity-40`}
                                 placeholder="Hasta"
                             />
-                            {(startDate || endDate) && (
+                            {(startDate || endDate) && !onlyToday && (
                                 <button
+                                    type="button"
                                     onClick={() => { setStartDate(''); setEndDate(''); }}
                                     className="text-[10px] text-violet-500 hover:text-violet-400 font-medium"
                                 >
@@ -233,6 +228,36 @@ export default function PropertiesView({ projectId, selectedPlatform, onPlatform
                             </span>
                         </label>
 
+                        <label className="flex items-center gap-2 cursor-pointer group">
+                            <div className="relative inline-flex items-center">
+                                <input
+                                    type="checkbox"
+                                    className="sr-only peer"
+                                    checked={onlyToday}
+                                    onChange={(e) => {
+                                        const v = e.target.checked
+                                        setOnlyToday(v)
+                                        if (v) {
+                                            setStartDate('')
+                                            setEndDate('')
+                                        }
+                                    }}
+                                />
+                                <div className={`w-9 h-5 rounded-full transition-colors peer-focus:ring-2 peer-focus:ring-sky-500/20 
+                                ${onlyToday ? 'bg-sky-600' : isLight ? 'bg-gray-200' : 'bg-zinc-700'}`}>
+                                </div>
+                                <div className={`absolute left-0.5 top-0.5 w-4 h-4 rounded-full bg-white transition-transform
+                                ${onlyToday ? 'translate-x-4' : 'translate-x-0'}`}>
+                                </div>
+                            </div>
+                            <span className={`text-sm font-medium ${onlyToday ? 'text-sky-500' : mutedClass} group-hover:text-sky-400 transition-colors`}>
+                                Hoy
+                            </span>
+                            <span className={`text-[10px] ${mutedClass}`} title="Publicaciones con fecha de carga en el día actual (hora Uruguay)">
+                                (Uruguay)
+                            </span>
+                        </label>
+
                         {(onlyDuplicates || onlyFavorites || selectedPlatform) && (
                             <span className="px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-500 text-[10px] font-bold uppercase tracking-wider animate-pulse">
                                 Filtro Activo
@@ -268,7 +293,7 @@ export default function PropertiesView({ projectId, selectedPlatform, onPlatform
                 ) : (
                     <>
                         {/* Table Section with extra top margin */}
-                        <div className="mt-6 overflow-x-auto">
+                        <div className="mt-6 overflow-x-auto scrollbar-soft">
                             <table className="w-full">
                                 <thead>
                                     <tr className={`${isLight ? 'bg-gray-50 border-b border-gray-200' : 'bg-zinc-800/50 border-b border-zinc-800'} transition-colors duration-200`}>
@@ -420,7 +445,8 @@ export default function PropertiesView({ projectId, selectedPlatform, onPlatform
                                                                 <span key={idx} className={`px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider
                                                                         ${p === 'Mercado Libre' ? 'bg-yellow-500/20 text-yellow-500' :
                                                                         (p === 'Infocasas' || p === 'InfoCasas') ? 'bg-orange-500/20 text-orange-500' :
-                                                                            (p === 'CasasYMas' || p === 'Gallito') ? 'bg-blue-500/20 text-blue-500' :
+                                                                            (p === 'VeoCasas') ? 'bg-emerald-500/20 text-emerald-500' :
+                                                                            (p === 'CasasYMas') ? 'bg-blue-500/20 text-blue-500' :
                                                                                 'bg-zinc-500/20 text-zinc-500'}`}>
                                                                     {p}
                                                                 </span>
@@ -476,6 +502,7 @@ export default function PropertiesView({ projectId, selectedPlatform, onPlatform
                                                                     className={`p-1 rounded-lg transition-colors
                                                                             ${linkObj.portal === 'Mercado Libre' ? 'text-yellow-500 hover:bg-yellow-500/10' :
                                                                             (linkObj.portal === 'Infocasas' || linkObj.portal === 'InfoCasas') ? 'text-orange-500 hover:bg-orange-500/10' :
+                                                                                linkObj.portal === 'VeoCasas' ? 'text-emerald-500 hover:bg-emerald-500/10' :
                                                                                 'text-blue-500 hover:bg-blue-500/10'}`}
                                                                     title={linkObj.portal}
                                                                 >
