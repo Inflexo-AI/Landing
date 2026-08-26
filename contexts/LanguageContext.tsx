@@ -179,8 +179,8 @@ const translations = {
 
     // Work / Portfolio
     'work.eyebrow': 'Experience',
-    'work.title': 'Success Cases',
-    'work.subtitle': 'Real automation, AI, and integration systems.',
+    'work.title': 'Success sectors',
+    'work.subtitle': 'AI applied to recruiting, real estate, restaurants and healthcare.',
     'work.filter.all': 'All',
     'work.caseStudy.aiIntegrated': 'AI Integrated',
     'work.caseStudy.before': 'Before: ',
@@ -225,7 +225,7 @@ const translations = {
     'hero.badge': 'Estudio de IA + Automatización',
     'hero.badgeText': 'Generación Automatizada de Leads',
     'hero.title': 'Transformación digital para Empresas',
-    'hero.subtitle': 'Automatizamos procesos repetitivos e integramos IA en tus sistemas actuales mediante la construcción de software hiper personalizado.',
+    'hero.subtitle': 'Automatizamos procesos repetitivos e integramos IA en tus sistemas actuales mediante la construcción de software a medida.',
     'hero.cta.demo': 'Agendar reunión gratuita',
     'hero.cta.work': 'Ver Trabajo',
     'hero.microline.erp': 'ERP/CRM',
@@ -378,8 +378,8 @@ const translations = {
 
     // Work / Portfolio
     'work.eyebrow': 'Experience',
-    'work.title': 'Casos de Éxito',
-    'work.subtitle': 'Sistemas reales de automatización, IA e integraciones.',
+    'work.title': 'Sectores de éxito',
+    'work.subtitle': 'IA aplicada a reclutamiento, inmobiliario, restaurantes y salud.',
     'work.filter.all': 'Todos',
     'work.caseStudy.aiIntegrated': 'IA integrada',
     'work.caseStudy.before': 'Antes: ',

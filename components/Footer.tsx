@@ -67,7 +67,7 @@ export default function Footer() {
                   Pricing
                 </a>
               </li>
-              <li>{link('#work', 'Casos de Éxito')}</li>
+              <li>{link('#work', 'Sectores de éxito')}</li>
               <li>{link('#how-it-works', 'Nuestro Proceso')}</li>
             </ul>
           </div>

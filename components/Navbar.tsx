@@ -98,7 +98,7 @@ export default function Navbar() {
             {[
               { href: '#hero', label: 'Inicio', id: 'hero', isPage: false },
               { href: '#services', label: 'Servicios', id: 'services', isPage: false },
-              { href: '#work', label: 'Casos de éxito', id: 'work', isPage: false },
+              { href: '#work', label: 'Sectores de éxito', id: 'work', isPage: false },
               { href: '/pricing', label: 'Pricing', id: 'pricing', isPage: true },
               { href: '#faq', label: 'FAQs', id: 'faq', isPage: false },
               { href: '#contact', label: 'Contacto', id: 'contact', isPage: false },
@@ -182,14 +182,6 @@ export default function Navbar() {
               )}
             </div>
             
-            {/* Login Button */}
-            <a
-              href="/auth/login"
-              className="px-4 py-2 rounded-lg text-white text-sm font-semibold hover:text-gray-300 transition-colors"
-            >
-              Iniciar Sesión
-            </a>
-            
             {/* CTA Button */}
             <button
               onClick={handleBookDemo}
@@ -217,7 +209,7 @@ export default function Navbar() {
               {[
                 { href: '#hero', label: 'Inicio', id: 'hero', isPage: false },
                 { href: '#services', label: 'Servicios', id: 'services', isPage: false },
-                { href: '#work', label: 'Casos de éxito', id: 'work', isPage: false },
+                { href: '#work', label: 'Sectores de éxito', id: 'work', isPage: false },
                 { href: '/pricing', label: 'Pricing', id: 'pricing', isPage: true },
                 { href: '#faq', label: 'FAQs', id: 'faq', isPage: false },
                 { href: '#contact', label: 'Contacto', id: 'contact', isPage: false },
@@ -281,15 +273,6 @@ export default function Navbar() {
                   </button>
                 </div>
               </div>
-              
-              {/* Login Button Mobile */}
-              <a
-                href="/auth/login"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block w-full px-4 py-3 rounded-lg text-white text-sm font-semibold hover:bg-gray-800 transition-colors text-center border border-gray-700"
-              >
-                Iniciar Sesión
-              </a>
               
               <button
                 onClick={handleBookDemo}

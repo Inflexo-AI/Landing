@@ -2,9 +2,6 @@ import type { Metadata } from 'next'
 import { Poppins } from 'next/font/google'
 import './globals.css'
 import { LanguageProvider } from '@/contexts/LanguageContext'
-import { AuthProvider } from '@/contexts/AuthContext'
-import { ThemeProvider } from '@/contexts/ThemeContext'
-import ProfileModal from '@/components/ProfileModal'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -19,9 +16,9 @@ export const metadata: Metadata = {
   keywords: ['AI automation', 'digital transformation', 'workflow automation', 'ERP integration', 'CRM integration', 'business automation'],
     authors: [{ name: 'Inflexo AI' }],
   icons: {
-    icon: '/icon.svg',
-    shortcut: '/icon.svg',
-    apple: '/icon.svg',
+    icon: '/icon.svg?v=2',
+    shortcut: '/icon.svg?v=2',
+    apple: '/icon.svg?v=2',
   },
   openGraph: {
     title: 'Inflexo AI | AI Automation & Digital Transformation',
@@ -48,14 +45,9 @@ export default function RootLayout({
   return (
     <html lang="es" className={poppins.variable} suppressHydrationWarning>
       <body className={poppins.className}>
-        <ThemeProvider>
-          <LanguageProvider>
-            <AuthProvider>
-              {children}
-              <ProfileModal />
-            </AuthProvider>
-          </LanguageProvider>
-        </ThemeProvider>
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   )

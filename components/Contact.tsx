@@ -4,7 +4,6 @@ import { Mail, Linkedin, ArrowRight, CheckCircle } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 import { useLanguage } from '@/contexts/LanguageContext'
-import { submitContactForm } from '@/app/actions/contact'
 
 export default function Contact() {
   const { t } = useLanguage()
@@ -76,22 +75,22 @@ export default function Contact() {
     setIsSubmitting(true)
     setErrors({})
 
-    const { error } = await submitContactForm({
-      name: formData.name,
-      email: formData.email,
-      company: formData.company,
-      phone: formData.phone || undefined,
-      service: formData.service || 'automations',
-      message: formData.message || undefined,
-    })
+    const subject = encodeURIComponent(`Contacto Inflexo AI — ${formData.company}`)
+    const body = encodeURIComponent(
+      [
+        `Nombre: ${formData.name}`,
+        `Email: ${formData.email}`,
+        `Empresa: ${formData.company}`,
+        formData.phone ? `Teléfono: ${formData.phone}` : null,
+        `Servicio: ${formData.service || 'automations'}`,
+        formData.message ? `\nMensaje:\n${formData.message}` : null,
+      ]
+        .filter(Boolean)
+        .join('\n')
+    )
+    window.location.href = `mailto:nicovilaviviano@gmail.com?subject=${subject}&body=${body}`
 
     setIsSubmitting(false)
-
-    if (error) {
-      setErrors({ submit: error })
-      return
-    }
-
     setIsSuccess(true)
     setTimeout(() => {
       setIsSuccess(false)

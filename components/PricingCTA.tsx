@@ -48,7 +48,7 @@ export default function PricingCTA() {
               whileTap={{ scale: 0.98 }}
               className="inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-transparent px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:border-zinc-600 hover:bg-zinc-800/50"
             >
-              Ver casos de éxito
+              Ver sectores de éxito
             </motion.button>
           </div>
         </motion.div>
