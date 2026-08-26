@@ -149,7 +149,7 @@ function SectorCard({ sector, index }: { sector: Sector; index: number }) {
         </div>
         {sector.external && (
           <span className="rounded-full border border-purple-500/40 bg-purple-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-purple-300">
-            Producto live
+            Producto en vivo
           </span>
         )}
       </div>

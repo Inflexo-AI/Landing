@@ -24,11 +24,12 @@ export async function generateMetadata({ params }: PageProps) {
   const caseStudy = getCaseBySlug(slug)
   if (!caseStudy) return { title: 'Caso no encontrado | Inflexo AI' }
   return {
-    title: `${caseStudy.title} - Caso de Éxito | Inflexo AI`,
+    title: `${caseStudy.title} | Inflexo AI`,
     description: caseStudy.description,
     openGraph: {
-      title: `${caseStudy.title} - Caso de Éxito | Inflexo AI`,
+      title: `${caseStudy.title} | Inflexo AI`,
       description: caseStudy.description,
+      locale: 'es_LA',
       images: caseStudy.image ? [{ url: caseStudy.image, alt: caseStudy.title }] : undefined,
     },
   }

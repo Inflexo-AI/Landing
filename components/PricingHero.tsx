@@ -21,7 +21,7 @@ export default function PricingHero() {
           transition={{ duration: 0.5 }}
         >
           <span className="inline-block rounded-lg border border-white/20 bg-black px-3.5 py-1.5 text-[10px] font-medium uppercase tracking-widest text-white">
-            Pricing
+            Precios
           </span>
         </motion.div>
         <motion.h1

@@ -7,7 +7,7 @@ import { useLanguage } from '@/contexts/LanguageContext'
 export default function Footer() {
   const { t } = useLanguage()
   const pathname = usePathname()
-  const isSubPage = pathname === '/pricing' || pathname.startsWith('/casos')
+  const isSubPage = pathname.startsWith('/casos')
 
   const handleContact = () => {
     if (isSubPage) {
@@ -62,11 +62,6 @@ export default function Footer() {
             <h4 className="text-white text-sm font-semibold mb-4 uppercase tracking-wider">Servicios</h4>
             <ul className="space-y-2">
               <li>{link('#services', 'Automatización')}</li>
-              <li>
-                <a href="/pricing" className="text-gray-400 hover:text-white text-sm transition-colors">
-                  Pricing
-                </a>
-              </li>
               <li>{link('#work', 'Sectores de éxito')}</li>
               <li>{link('#how-it-works', 'Nuestro Proceso')}</li>
             </ul>
@@ -102,7 +97,7 @@ export default function Footer() {
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-gray-400">{t('footer.copyright')}</p>
           <div className="flex items-center gap-6 text-sm text-gray-400">
-            {link('#faq', 'FAQ')}
+            {link('#faq', 'Preguntas')}
             <a
               href="https://linkedin.com/company/we-automate"
               target="_blank"

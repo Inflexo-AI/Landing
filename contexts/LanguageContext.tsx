@@ -377,7 +377,7 @@ const translations = {
     'core.leads.useCases': 'Equipos de ventas, empresas B2B, agencias y negocios que buscan escalar la generación de leads y aumentar tasas de conversión',
 
     // Work / Portfolio
-    'work.eyebrow': 'Experience',
+    'work.eyebrow': 'Experiencia',
     'work.title': 'Sectores de éxito',
     'work.subtitle': 'IA aplicada a reclutamiento, inmobiliario, restaurantes y salud.',
     'work.filter.all': 'Todos',

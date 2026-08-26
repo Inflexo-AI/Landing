@@ -69,7 +69,7 @@ export default function CoreSystems() {
         >
           <div className="mb-5">
             <span className="inline-block px-3.5 py-1.5 bg-black border border-white rounded-lg text-white text-[10px] font-medium uppercase tracking-wide">
-              Sistemas Core
+              Sistemas clave
             </span>
           </div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-white tracking-tight leading-tight">

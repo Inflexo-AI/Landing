@@ -11,25 +11,39 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: 'Inflexo AI | AI Automation & Digital Transformation Studio',
-  description: 'We build automation systems that run your operations. We integrate AI into business processes, automate repetitive workflows, and build functional systems.',
-  keywords: ['AI automation', 'digital transformation', 'workflow automation', 'ERP integration', 'CRM integration', 'business automation'],
-    authors: [{ name: 'Inflexo AI' }],
+  title: 'Inflexo AI | Automatización end-to-end para PyMEs',
+  description:
+    'Automatizamos procesos repetitivos e integramos IA en tus sistemas actuales con software a medida. Para PyMEs en Latinoamérica.',
+  keywords: [
+    'automatización con IA',
+    'software a medida',
+    'transformación digital',
+    'automatización para PyMEs',
+    'integración ERP',
+    'integración CRM',
+    'agentes de IA',
+    'automatización de procesos',
+    'Latinoamérica',
+  ],
+  authors: [{ name: 'Inflexo AI' }],
   icons: {
     icon: '/icon.svg?v=2',
     shortcut: '/icon.svg?v=2',
     apple: '/icon.svg?v=2',
   },
   openGraph: {
-    title: 'Inflexo AI | AI Automation & Digital Transformation',
-    description: 'We build automation systems that run your operations.',
+    title: 'Inflexo AI | Automatización end-to-end para PyMEs',
+    description:
+      'Automatizamos procesos repetitivos e integramos IA en tus sistemas actuales con software a medida.',
     type: 'website',
-    locale: 'en_US',
+    locale: 'es_LA',
+    siteName: 'Inflexo AI',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Inflexo AI | AI Automation & Digital Transformation',
-    description: 'We build automation systems that run your operations.',
+    title: 'Inflexo AI | Automatización end-to-end para PyMEs',
+    description:
+      'Automatizamos procesos repetitivos e integramos IA en tus sistemas actuales con software a medida.',
   },
   robots: {
     index: true,
@@ -43,7 +57,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es" className={poppins.variable} suppressHydrationWarning>
+    <html lang="es-419" className={poppins.variable} suppressHydrationWarning>
       <body className={poppins.className}>
         <LanguageProvider>
           {children}

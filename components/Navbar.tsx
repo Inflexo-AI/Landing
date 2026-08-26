@@ -99,11 +99,10 @@ export default function Navbar() {
               { href: '#hero', label: 'Inicio', id: 'hero', isPage: false },
               { href: '#services', label: 'Servicios', id: 'services', isPage: false },
               { href: '#work', label: 'Sectores de éxito', id: 'work', isPage: false },
-              { href: '/pricing', label: 'Pricing', id: 'pricing', isPage: true },
-              { href: '#faq', label: 'FAQs', id: 'faq', isPage: false },
+              { href: '#faq', label: 'Preguntas', id: 'faq', isPage: false },
               { href: '#contact', label: 'Contacto', id: 'contact', isPage: false },
             ].map((link) => {
-              const isSubPage = pathname === '/pricing' || pathname.startsWith('/casos')
+              const isSubPage = pathname.startsWith('/casos')
               const isActive = link.isPage
                 ? pathname === link.href
                 : activeSection === link.id
@@ -210,11 +209,10 @@ export default function Navbar() {
                 { href: '#hero', label: 'Inicio', id: 'hero', isPage: false },
                 { href: '#services', label: 'Servicios', id: 'services', isPage: false },
                 { href: '#work', label: 'Sectores de éxito', id: 'work', isPage: false },
-                { href: '/pricing', label: 'Pricing', id: 'pricing', isPage: true },
-                { href: '#faq', label: 'FAQs', id: 'faq', isPage: false },
+                { href: '#faq', label: 'Preguntas', id: 'faq', isPage: false },
                 { href: '#contact', label: 'Contacto', id: 'contact', isPage: false },
               ].map((link) => {
-                const isSubPage = pathname === '/pricing' || pathname.startsWith('/casos')
+                const isSubPage = pathname.startsWith('/casos')
                 const isActive = link.isPage
                   ? pathname === link.href
                   : activeSection === link.id

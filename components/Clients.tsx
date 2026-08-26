@@ -4,7 +4,7 @@ export default function Clients() {
       <div className="max-w-6xl mx-auto">
         <div className="text-center">
           <h3 className="text-base text-white tracking-wider">
-            Buscando conectar con nuestros primeros clientes
+            Automatización end-to-end para PyMEs
           </h3>
         </div>
       </div>

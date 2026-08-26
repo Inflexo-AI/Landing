@@ -73,7 +73,7 @@ export default function FAQ() {
         <div className="text-center mb-16">
           <div className="mb-5">
             <span className="text-purple-400 text-sm font-semibold uppercase tracking-widest">
-              FAQ
+              Preguntas
             </span>
           </div>
           

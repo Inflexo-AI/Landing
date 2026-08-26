@@ -66,7 +66,7 @@ export default function Hero() {
                 color: '#FFFFFF',
               }}
             >
-              New
+              Nuevo
             </span>
             <span className="text-xs" style={{ color: '#FFFFFF' }}>
               {t('hero.badgeText')}
